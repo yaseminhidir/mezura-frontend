@@ -1,0 +1,2 @@
+powershell -Command "Invoke-WebRequest http://mezura2api.alpertokcan.com/swagger/MainApp/swagger.json -OutFile ./swagger.json"
+openapi-generator-cli generate -i .\swagger.json -g typescript-axios -o ./
