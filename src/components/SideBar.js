@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 
 export default function () {
   var [cariler, setCariler] = useState(false);
-  var [hesaplar, setHesaplar] = useState(false);
+
   var [urunler, setUrunler] = useState(false);
+  var [irsaliyeler, setIrsaliyeler] = useState(false);
 
   return (
     <div>
@@ -23,19 +24,7 @@ export default function () {
             Cariler
           </NavLink>
         </ListGroupItem>
-        <ListGroupItem active={hesaplar}>
-          <NavLink
-            exact={true}
-            activeClassName=""
-            className={(state) => {
-              setHesaplar(state);
-              return "";
-            }}
-            to="/hesaplar"
-          >
-            Hesaplar
-          </NavLink>
-        </ListGroupItem>
+     
         <ListGroupItem active={urunler}>
           {" "}
           <NavLink
@@ -50,9 +39,24 @@ export default function () {
             Ürünler
           </NavLink>
         </ListGroupItem>
-        <ListGroupItem>Kullanıcılar</ListGroupItem>
-        <ListGroupItem>İrsaliyeler</ListGroupItem>
-        <ListGroupItem>Çıkış Yap</ListGroupItem>
+   
+        <ListGroupItem active={irsaliyeler}>
+          {" "}
+          <NavLink
+            to="/irsaliyeler"
+            exact={true}
+            activeClassName=""
+            className={(state) => {
+              setIrsaliyeler(state);
+              return "";
+            }}
+            to="/irsaliyeler"
+          >
+            {" "}
+            İrsaliyeler{" "}
+          </NavLink>
+        </ListGroupItem>
+   
       </ListGroup>
     </div>
   );

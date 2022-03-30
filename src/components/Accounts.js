@@ -58,7 +58,7 @@ export default function Cariler({}) {
                   <Link to={"/cariler/" + account.id}>
                     <FaEdit className="text-primary h5"></FaEdit>
                   </Link>
-                  <FaTrashAlt onClick={(e)=>deleteAccount(account.id)} className="text-danger h5"></FaTrashAlt>
+                  <FaTrashAlt style={{cursor:"pointer"}} onClick={(e)=>deleteAccount(account.id)} className="text-danger h5"></FaTrashAlt>
                 </td>
               </tr>
             ))}

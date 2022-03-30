@@ -74,7 +74,7 @@ export default function ProductDetail() {
       3- {name:"test"} -> {name:"test2"} // array[index] = newObj;
       4- {bla bla}
     */
-    newProductDetails[editingIndex] = newDetail;
+    newProductDetails[editingIndex] = newDetail; //obj
     var newProduct = {
       ...product,
       productDetails: newProductDetails,

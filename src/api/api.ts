@@ -439,33 +439,64 @@ export interface FreightBill {
 /**
  * 
  * @export
- * @interface FreightBillBR
+ * @interface FreightBillDetailResponse
  */
-export interface FreightBillBR {
+export interface FreightBillDetailResponse {
+    /**
+     * 
+     * @type {FreightBill}
+     * @memberof FreightBillDetailResponse
+     */
+    'freightBill'?: FreightBill;
+    /**
+     * 
+     * @type {Array<Currency>}
+     * @memberof FreightBillDetailResponse
+     */
+    'currencies'?: Array<Currency> | null;
+    /**
+     * 
+     * @type {Array<Account>}
+     * @memberof FreightBillDetailResponse
+     */
+    'accounts'?: Array<Account> | null;
+    /**
+     * 
+     * @type {Array<ProductMain>}
+     * @memberof FreightBillDetailResponse
+     */
+    'products'?: Array<ProductMain> | null;
+}
+/**
+ * 
+ * @export
+ * @interface FreightBillDetailResponseBR
+ */
+export interface FreightBillDetailResponseBR {
     /**
      * 
      * @type {boolean}
-     * @memberof FreightBillBR
+     * @memberof FreightBillDetailResponseBR
      */
     'success'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof FreightBillBR
+     * @memberof FreightBillDetailResponseBR
      */
     'error'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof FreightBillBR
+     * @memberof FreightBillDetailResponseBR
      */
     'info'?: string | null;
     /**
      * 
-     * @type {FreightBill}
-     * @memberof FreightBillBR
+     * @type {FreightBillDetailResponse}
+     * @memberof FreightBillDetailResponseBR
      */
-    'data'?: FreightBill;
+    'data'?: FreightBillDetailResponse;
 }
 /**
  * 
@@ -1400,6 +1431,37 @@ export interface User {
 /**
  * 
  * @export
+ * @interface UserBR
+ */
+export interface UserBR {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserBR
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserBR
+     */
+    'error'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserBR
+     */
+    'info'?: string | null;
+    /**
+     * 
+     * @type {User}
+     * @memberof UserBR
+     */
+    'data'?: User;
+}
+/**
+ * 
+ * @export
  * @interface UserRole
  */
 export interface UserRole {
@@ -1761,6 +1823,35 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/getUser`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {LoginRequest} [loginRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1866,6 +1957,15 @@ export const AuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserBR>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserPost(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {LoginRequest} [loginRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1905,6 +2005,14 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserPost(options?: any): AxiosPromise<UserBR> {
+            return localVarFp.getUserPost(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {LoginRequest} [loginRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1939,6 +2047,16 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class AuthApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public getUserPost(options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).getUserPost(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {LoginRequest} [loginRequest] 
@@ -1979,6 +2097,43 @@ export class AuthApi extends BaseAPI {
  */
 export const FreightBillApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {FreightBill} [freightBill] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        freightbillsBillsFinalizePost: async (freightBill?: FreightBill, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/freightbills/bills/finalize`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth2 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "oauth2", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(freightBill, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -2135,6 +2290,16 @@ export const FreightBillApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {FreightBill} [freightBill] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async freightbillsBillsFinalizePost(freightBill?: FreightBill, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FreightBillDetailResponseBR>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.freightbillsBillsFinalizePost(freightBill, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2158,7 +2323,7 @@ export const FreightBillApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async freightbillsBillsIdGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FreightBillBR>> {
+        async freightbillsBillsIdGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FreightBillDetailResponseBR>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.freightbillsBillsIdGet(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2168,7 +2333,7 @@ export const FreightBillApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async freightbillsBillsPost(freightBill?: FreightBill, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FreightBillBR>> {
+        async freightbillsBillsPost(freightBill?: FreightBill, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FreightBillDetailResponseBR>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.freightbillsBillsPost(freightBill, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2182,6 +2347,15 @@ export const FreightBillApiFp = function(configuration?: Configuration) {
 export const FreightBillApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FreightBillApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {FreightBill} [freightBill] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        freightbillsBillsFinalizePost(freightBill?: FreightBill, options?: any): AxiosPromise<FreightBillDetailResponseBR> {
+            return localVarFp.freightbillsBillsFinalizePost(freightBill, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -2205,7 +2379,7 @@ export const FreightBillApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        freightbillsBillsIdGet(id: number, options?: any): AxiosPromise<FreightBillBR> {
+        freightbillsBillsIdGet(id: number, options?: any): AxiosPromise<FreightBillDetailResponseBR> {
             return localVarFp.freightbillsBillsIdGet(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2214,7 +2388,7 @@ export const FreightBillApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        freightbillsBillsPost(freightBill?: FreightBill, options?: any): AxiosPromise<FreightBillBR> {
+        freightbillsBillsPost(freightBill?: FreightBill, options?: any): AxiosPromise<FreightBillDetailResponseBR> {
             return localVarFp.freightbillsBillsPost(freightBill, options).then((request) => request(axios, basePath));
         },
     };
@@ -2227,6 +2401,17 @@ export const FreightBillApiFactory = function (configuration?: Configuration, ba
  * @extends {BaseAPI}
  */
 export class FreightBillApi extends BaseAPI {
+    /**
+     * 
+     * @param {FreightBill} [freightBill] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FreightBillApi
+     */
+    public freightbillsBillsFinalizePost(freightBill?: FreightBill, options?: AxiosRequestConfig) {
+        return FreightBillApiFp(this.configuration).freightbillsBillsFinalizePost(freightBill, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -2382,7 +2567,6 @@ export const ProductApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            debugger;
             localVarRequestOptions.data = serializeDataIfNeeded(productMain, localVarRequestOptions, configuration)
 
             return {

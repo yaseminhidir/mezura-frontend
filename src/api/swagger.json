@@ -298,6 +298,30 @@
         }
       }
     },
+    "/getUser": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBR"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBR"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/freightbills/bills": {
       "get": {
         "tags": [
@@ -360,12 +384,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FreightBillBR"
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FreightBillBR"
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
                 }
               }
             }
@@ -400,12 +424,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FreightBillBR"
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FreightBillBR"
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
                 }
               }
             }
@@ -444,6 +468,59 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BooleanBR"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
+      }
+    },
+    "/freightbills/bills/finalize": {
+      "post": {
+        "tags": [
+          "FreightBill"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FreightBill"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FreightBill"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FreightBill"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FreightBill"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreightBillDetailResponseBR"
                 }
               }
             }
@@ -913,7 +990,37 @@
         },
         "additionalProperties": false
       },
-      "FreightBillBR": {
+      "FreightBillDetailResponse": {
+        "type": "object",
+        "properties": {
+          "freightBill": {
+            "$ref": "#/components/schemas/FreightBill"
+          },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            },
+            "nullable": true
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            },
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductMain"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FreightBillDetailResponseBR": {
         "type": "object",
         "properties": {
           "success": {
@@ -928,7 +1035,7 @@
             "nullable": true
           },
           "data": {
-            "$ref": "#/components/schemas/FreightBill"
+            "$ref": "#/components/schemas/FreightBillDetailResponse"
           }
         },
         "additionalProperties": false
@@ -1591,6 +1698,26 @@
           },
           "_delete": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserBR": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "info": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false

@@ -1,15 +1,18 @@
+import Nav from "./Nav";
+import { Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import AuthLogin from "./AuthLogin";
 import SideBar from "./SideBar";
 import Accounts from "./Accounts";
 import AccountDetail from "./AccountDetail";
 import Hesaplar from "./Hesaplar";
-import Nav from "./Nav";
-import { Route, Switch } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 import { Row, Col, Container } from "reactstrap";
 import Products from "./Products";
 import ProductDetail from "./ProductDetail";
+import FreightBills from "./FreightBills";
+import FreightBillDetail from "./FreightBillDetail";
+
 
 export default function DashBoard({}) {
   var user = useSelector((state) => state.authReducer);
@@ -36,7 +39,10 @@ export default function DashBoard({}) {
                 <Route path="/urunler/yeniekle" component={ProductDetail} />
                 <Route path="/urunler/:productId" component={ProductDetail} />
                 <Route path="/hesaplar" component={Hesaplar} />
-                <Route path="/urunler" component={Products} />
+                <Route path="/urunler" exact={true} component={Products} />
+                <Route path="/irsaliyeler" exact={true} component={FreightBills} />
+                <Route path="/irsaliyeler/:freightBillId" exact={true} component={FreightBillDetail} />
+                <Route path="/irsaliyeler/yeniekle" exact={true} component={FreightBillDetail} />
               </Switch>
             </Col>
           </Row>

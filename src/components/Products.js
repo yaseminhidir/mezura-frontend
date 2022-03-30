@@ -1,6 +1,6 @@
 import API from "../api";
-import {  Table, Card, CardTitle, CardBody } from "reactstrap";
-import {NavLink, Link} from "react-router-dom"
+import { Table, Card, CardTitle, CardBody } from "reactstrap";
+import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
@@ -54,9 +54,9 @@ export default function Products() {
                 <td>{product.createdAt}</td>
                 <td>
                   <Link to={"/urunler/" + product.id}>
-                  <button type="button" className="btn btn-primary px-3"> <FaEdit className="text-primary h5"></FaEdit> </button> 
+                    <FaEdit className="text-primary h5"></FaEdit>
                   </Link>
-                  <FaTrashAlt className="text-danger h5"></FaTrashAlt>
+              
                 </td>
               </tr>
             ))}
